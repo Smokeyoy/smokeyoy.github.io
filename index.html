@@ -2,61 +2,703 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" sizes="any" mask="" href="/assets/logo.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abby's Portfolio</title>
-    <link rel="stylesheet" href="assets/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Sans+3:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <link rel="icon" sizes="any" mask="" href="logo.png">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #1d1d1d;
+      --surface: #2a2a2a;
+      --surface2: #323232;
+      --text: #ffffff;
+      --muted: #aaaaaa;
+      --pink: #ff6893;
+      --border: #404040;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    /* LIST */
+    .navbar {
+      font-family: 'Trebuchet MS', sans-serif;
+      position: sticky;
+      top: 0;
+      overflow: visible;
+      min-height: 50px;
+
+      background-color: #1d1d1dce;
+      z-index: 100;
+      -webkit-user-select: none;
+      /* Safari */
+      -ms-user-select: none;
+      /* IE 10 and IE 11 */
+      user-select: none;
+      /* Standard syntax */
+    }
+
+    .navbar a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .navbar a:hover {
+      color: #ff6893;
+      text-shadow: 0px 0px 10px #ff6893;
+      transition: 0.2s;
+    }
+
+    .navbar a:not(:hover) {
+      transition: 0.2s;
+    }
+
+    /*END LIST*/
+
+    /* DROPDOWN */
+    .dropdown {
+      float: left;
+      overflow: hidden;
+
+    }
+
+    /* Dropdown button */
+    .dropdown .dropbtn {
+      font-size: 17px;
+      border: none;
+      outline: none;
+      color: #f2f2f2;
+      padding: 14px 16px;
+      background-color: inherit;
+      font-family: 'Trebuchet MS', sans-serif;
+      margin: 0;
+      border-radius: 15px;
+    }
+
+    /* Dropdown content (hidden by default) */
+    .dropdown-content {
+      font-family: 'Trebuchet MS', sans-serif;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+      transform: translateY(-10px);
+      position: absolute;
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px #00000033;
+      z-index: 1000;
+    }
+
+    /* Dropdown links */
+    .dropdown-content a {
+      float: none;
+      font-size: 16px;
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+
+    /* Links contained in dropdown hover */
+    .dropdown-content a:hover {
+      color: #ff6893;
+      text-shadow: 0px 0px 10px #ff6893;
+      transition: 0.2s;
+    }
+
+    /* Show & animate the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+      opacity: 1;
+      transform: translateY(0px);
+      pointer-events: auto;
+
+    }
+
+    /* Dropdown button hover */
+    .dropdown:hover .dropbtn {
+      color: #ff6893;
+      text-shadow: 0px 0px 10px #ff6893;
+      transition: 0.2s;
+    }
+
+    /* Dropdown button not hover */
+    .dropdown:not(:hover) .dropbtn {
+      transition: 0.2s;
+    }
+
+    /* END DROPDOWN */
+
+    /* BLOCKQUOTE */
+    blockquote {
+      background-color: #ff689382;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 50%;
+    }
+
+    code {
+      color: white;
+      text-wrap: wrap;
+    }
+
+    /* END BLOCKQUOTE */
+
+    /* END NAV */
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 4rem);
+      overflow: hidden;
+      gap: 1.5rem;
+    }
+
+    /* ── Slideshow background layers ── */
+    .slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+      z-index: 0;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    /* dark overlay so text stays readable */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+          rgba(0, 0, 0, 0.55) 0%,
+          rgba(0, 0, 0, 0.45) 50%,
+          rgba(0, 0, 0, 0.65) 100%);
+      z-index: 1;
+    }
+
+    /* ── Hero content (sits above overlay) ── */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .hero-icon {
+      width: 64px;
+      height: 64px;
+      color: var(--pink);
+      filter: drop-shadow(0 2px 12px rgba(232, 115, 138, 0.5));
+      animation: fadeUp 0.7s 0.1s ease both;
+      opacity: 0;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 10vw, 6rem);
+      color: var(--pink);
+      line-height: 1;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+      animation: fadeUp 0.7s 0.2s ease both;
+      opacity: 0;
+    }
+
+    .hero-subtitle {
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+      animation: fadeUp 0.7s 0.3s ease both;
+      opacity: 0;
+    }
+
+    .hero-name {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.75);
+      letter-spacing: 0.1em;
+      animation: fadeUp 0.7s 0.35s ease both;
+      opacity: 0;
+    }
+
+    .hero-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--pink);
+      border-radius: 2px;
+      animation: expandWidth 0.7s 0.45s ease both;
+      opacity: 0;
+    }
+
+    .hero-intro {
+      max-width: 580px;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+      animation: fadeUp 0.7s 0.5s ease both;
+      opacity: 0;
+    }
+
+    /* ── Slideshow dots ── */
+    .slide-dots {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 3;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .dot.active {
+      background: var(--pink);
+      border-color: var(--pink);
+      transform: scale(1.25);
+    }
+
+    /* ── Categories ── */
+    .categories {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 6vw, 4rem);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 2.5rem;
+      font-weight: 600;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .category-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      transition: background 0.3s, border-color 0.3s, transform 0.2s;
+      opacity: 0;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .category-btn:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .category-btn:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .category-btn:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .category-btn:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+
+    .category-btn:hover {
+      background: var(--surface2);
+      border-color: var(--pink);
+      transform: translateY(-3px);
+    }
+
+    .cat-icon {
+      width: 36px;
+      height: 36px;
+      color: var(--pink);
+      transition: transform 0.3s;
+    }
+
+    .category-btn:hover .cat-icon {
+      transform: scale(1.15);
+    }
+
+    .cat-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--text);
+      transition: color 0.3s;
+      line-height: 1;
+    }
+
+    .category-btn:hover .cat-name {
+      color: var(--pink);
+    }
+
+    .cat-link {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+
+    .category-btn:hover .cat-link {
+      color: var(--pink);
+    }
+
+    /* ── Contact ── */
+    .contact-section {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 6vw, 4rem);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .contact-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .contact-section h2 span {
+      color: var(--pink);
+    }
+
+    .contact-section p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 2.5rem;
+      background: var(--pink);
+      color: #fff;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 2px solid var(--pink);
+      transition: background 0.3s, color 0.3s;
+      margin-top: 0.5rem;
+    }
+
+    .contact-btn:hover {
+      background: transparent;
+      color: var(--pink);
+    }
+
+    .contact-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      transition: transform 0.3s;
+    }
+
+    .contact-btn:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    footer p {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes expandWidth {
+      from {
+        opacity: 0;
+        width: 0;
+      }
+
+      to {
+        opacity: 1;
+        width: 60px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links a {
+        padding: 0 0.7rem;
+        font-size: 0.78rem;
+      }
+
+      .category-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero {
+        min-height: 80vh;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
-<body class="prevent-select">
-    <!-- NAV -->
-    <div class="navbar">
-        <a href="../">Home</a>
-        <div class="dropdown">
-            <button class="dropbtn">Gallery</button>
-            <div class="dropdown-content">
-                <a href="/gallery/wildlife">Wildlife</a>
-                <a href="/gallery/portrait">Portrait</a>
-                <a href="/gallery/event">Event</a>
-                <a href="/gallery/sport">Sport</a>
-                
-            </div>
-        </div>
-        <a href="../contact">Contact</a>
+<body>
+
+  <!-- NAV -->
+  <div class="navbar">
+    <a href="../">Home</a>
+    <div class="dropdown">
+      <button class="dropbtn">Gallery</button>
+      <div class="dropdown-content">
+        <a href="/gallery/wildlife">Wildlife</a>
+        <a href="/gallery/portrait">Portrait</a>
+        <a href="/gallery/event">Event</a>
+        <a href="/gallery/sport">Sport</a>
+
+      </div>
     </div>
-    <!-- END NAV -->
+    <a href="../contact">Contact</a>
+  </div>
+  <!-- END NAV -->
 
-    
-    <div>
-        <h1 style="margin-bottom: 0px;" class="prevent-select">Portfolio
-            <br><img src="/assets/logo.png" style="width: 50px; height: 50px; border-radius: 50%; margin-top: 10px;">
-        </h1>
-        <p style='margin-bottom: 0px;'>
-            AP Computer Science Principles
-        </p>
-        <p style="font-size: 15px; margin-top: 3px; color:#ffffff9f">Abby Shanker</p>
+  <!-- ── HERO with slideshow ── -->
+  <section class="hero" id="hero">
+
+    <!-- =============================================
+    BACKGROUND SLIDESHOW PHOTOS
+    Replace these src URLs with your own image paths,
+    e.g. "images/hero1.jpg" — add or remove .slide divs as needed
+  ============================================= -->
+    <div class="slide active" style="background-image: url('images/slideshow/first.png')"></div>
+    <div class="slide" style="background-image: url('images/slideshow/second.jpg')"></div>
+    <div class="slide" style="background-image: url('images/slideshow/third.jpg')"></div>
+    <div class="slide" style="background-image: url('images/slideshow/fourth.jpg')"></div>
+    <div class="slide" style="background-image: url('images/slideshow/fifth.jpg')"></div>
+
+    <!-- Dark overlay for text legibility -->
+    <div class="hero-overlay"></div>
+
+    <!-- Content -->
+    <div class="hero-content">
+      <img class="hero-icon" src="logo.png">
+      <h1 class="hero-title">Portfolio</h1>
+      <p class="hero-subtitle">Photography Portfolio</p>
+      <p class="hero-name">Abby Shanker</p>
+      <div class="hero-divider"></div>
+      <p class="hero-intro">
+        Welcome to my photography portfolio. While I enjoy wildlife and bird photography the most, I have shot a wide
+        variety of subjects over the years. In my portfolio I have included a selection of my best work across different
+        categories, including wildlife, portrait, event and sport photography. Feel free to explore the galleries and
+        get in touch if you'd like to collaborate or have any questions about my work.
+      </p>
     </div>
-    <div class="container">
-        <img src="/assets/kirby.gif" style="width: 200px; height: 200px; border-radius: 50%; margin-top: 20px;">
-        </div>
-    <p style="padding-left: 20%; max-width: 60%;"><br>My name is Abby Shanker, and during my Junior year, I took AP Computer Science Principles.
-        Last year, I took AP Computer Science A, which focused on the application of Java. I decided
-        to take AP Computer Science Principles because I wanted to gain a better understanding of
-        the foundation of computer science. I really liked the AP Computer Science Principles curriculum.
-        Since I took the Java class before the principles class, it was difficult to combine learning
-        a new programming language with learning the logic of computer science. After taking this course,
-        I feel more prepared to take a rigorous computer science course. I gained an in-depth understanding
-        of the principles that are fundamental to understanding new coding languages.
 
-        <br><br><br>
-        In this portfolio, I have included my Performance Task for the AP Computer Science Principles exam,
-        a password generator, a game design project and segments of code that reflect my skills. I have also included a reflection on my experience
-        in this course.
-        <br><br>Enjoy!
+    <!-- Dots navigation -->
+    <div class="slide-dots" id="dots"></div>
 
-    </p>
-    
+  </section>
+
+  <!-- ── CATEGORIES ── -->
+  <section class="categories" id="categories">
+    <p class="section-label">Browse by category</p>
+    <div class="category-grid">
+
+      <a href="gallery.html?cat=wildlife" class="category-btn">
+        <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 9l4-4 4 4 4-4 4 4M3 15l4 4 4-4 4 4 4-4" />
+        </svg>
+        <span class="cat-name">Wildlife</span>
+        <span class="cat-link">View gallery →</span>
+      </a>
+
+      <a href="gallery.html?cat=portrait" class="category-btn">
+        <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" />
+        </svg>
+        <span class="cat-name">Portrait</span>
+        <span class="cat-link">View gallery →</span>
+      </a>
+
+      <a href="gallery.html?cat=event" class="category-btn">
+        <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="4" width="18" height="17" rx="2" />
+          <path d="M16 2v4M8 2v4M3 10h18" />
+        </svg>
+        <span class="cat-name">Event</span>
+        <span class="cat-link">View gallery →</span>
+      </a>
+
+      <a href="gallery.html?cat=sport" class="category-btn">
+        <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 3c2.4 2.4 4 5.6 4 9s-1.6 6.6-4 9M12 3c-2.4 2.4-4 5.6-4 9s1.6 6.6 4 9M3 12h18" />
+        </svg>
+        <span class="cat-name">Sport</span>
+        <span class="cat-link">View gallery →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section class="contact-section" id="contact">
+    <h2>Reach <span>out!</span></h2>
+    <p>Bookings, commissions &amp; enquiries welcome</p>
+    <a href="contact.html" class="contact-btn">
+      Get in touch
+      <svg viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
+    </a>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>&copy; 2026 Abby Shanker — All rights reserved</p>
+    <p>Photography Portfolio</p>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('dots');
+    let current = 0;
+
+    // Build dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function goTo(index) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = index;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    function next() {
+      goTo((current + 1) % slides.length);
+    }
+
+    // Auto-advance every 3 seconds
+    setInterval(next, 5000);
+  </script>
+
 </body>
 
 </html>
