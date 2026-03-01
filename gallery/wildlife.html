@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+
+  <title>Portfolio</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" sizes="any" mask="" href="../logo.png">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #1d1d1d;
+      --surface: #161616;
+      --text: #ff6893;
+      --muted: #ffffffaf;
+      --accent: #ff6893;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Trebuchet MS', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header::before {
+      content: '';
+      background: radial-gradient(ellipse at 50% 50%, rgba(232, 115, 138, 0.1) 0%, transparent 70%);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      color: var(--text);
+      font-weight: 900;
+      font-style: italic;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    .gallery {
+      padding: 2rem 1.5rem;
+      columns: 4 280px;
+      column-gap: 12px;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      background: var(--surface);
+    }
+
+    .gallery-item img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s;
+      filter: brightness(0.92);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+      filter: brightness(1);
+    }
+
+    .gallery-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.35s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+
+    .gallery-item:hover .overlay {
+      opacity: 1;
+    }
+
+    .overlay-icon {
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+    }
+
+    .overlay-icon svg {
+      width: 14px;
+      height: 14px;
+      stroke: white;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.95);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      backdrop-filter: blur(4px);
+    }
+
+    #lightbox.active {
+      display: flex;
+    }
+
+    #lightbox-inner {
+      position: relative;
+      max-width: 92vw;
+      max-height: 92vh;
+      cursor: default;
+      animation: lbIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    @keyframes lbIn {
+      from {
+        opacity: 0;
+        transform: scale(0.93);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    #lightbox-img {
+      display: block;
+      max-width: 92vw;
+      max-height: 88vh;
+      object-fit: contain;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+    }
+
+    #lb-close {
+      position: absolute;
+      top: -44px;
+      right: 0;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 1.8rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+      padding: 4px 8px;
+    }
+
+    #lb-close:hover {
+      color: white;
+    }
+
+    #lb-prev,
+    #lb-next {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.2rem;
+      padding: 0.8rem 0.6rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      z-index: 1001;
+      line-height: 1;
+    }
+
+    #lb-prev {
+      left: 1rem;
+    }
+
+    #lb-next {
+      right: 1rem;
+    }
+
+    #lb-prev:hover,
+    #lb-next:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    #lb-counter {
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .gallery {
+        columns: 2 140px;
+        padding: 1rem;
+        column-gap: 8px;
+      }
+
+      .gallery-item {
+        margin-bottom: 8px;
+      }
+
+      #lb-prev {
+        left: 0.3rem;
+      }
+
+      #lb-next {
+        right: 0.3rem;
+      }
+    }
+
+    /* NAV */
+    /* LIST */
+    .navbar {
+      font-family: 'Trebuchet MS', sans-serif;
+      position: sticky;
+      top: 0;
+      overflow: visible;
+      min-height: 50px;
+      background-color: #1d1d1dce;
+      z-index: 100;
+      -webkit-user-select: none;
+      /* Safari */
+      -ms-user-select: none;
+      /* IE 10 and IE 11 */
+      user-select: none;
+      /* Standard syntax */
+    }
+
+    .navbar a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .navbar a:hover {
+      color: #ff6893;
+      text-shadow: 0px 0px 10px #ff6893;
+      transition: 0.2s;
+    }
+
+    .navbar a:not(:hover) {
+      transition: 0.2s;
+    }
+
+    /*END LIST*/
+
+    /* DROPDOWN */
+    .dropdown {
+      float: left;
+      overflow: hidden;
+
+    }
+
+    /* Dropdown button */
+    .dropdown .dropbtn {
+      font-size: 17px;
+      border: none;
+      outline: none;
+      color: #f2f2f2;
+      padding: 14px 16px;
+      background-color: inherit;
+      font-family: 'Trebuchet MS', sans-serif;
+      margin: 0;
+      border-radius: 15px;
+    }
+
+    /* Dropdown content (hidden by default) */
+    .dropdown-content {
+      font-family: 'Trebuchet MS', sans-serif;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+      transform: translateY(-10px);
+      position: absolute;
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px #00000033;
+      z-index: 1000;
+    }
+
+    /* Dropdown links */
+    .dropdown-content a {
+      float: none;
+      font-size: 16px;
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+
+    /* Links contained in dropdown hover */
+    .dropdown-content a:hover {
+      color: #ff6893;
+      text-shadow: 0px 0px 10px #ff6893;
+      transition: 0.2s;
+    }
+
+    /* Show & animate the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+      opacity: 1;
+      transform: translateY(0px);
+      pointer-events: auto;
+
+    }
+
+    /* Dropdown button hover */
+    .dropdown:hover .dropbtn {
+      color: #ff6893;
+      text-shadow: 0px 0px 10px #ff6893;
+      transition: 0.2s;
+    }
+
+    /* Dropdown button not hover */
+    .dropdown:not(:hover) .dropbtn {
+      transition: 0.2s;
+    }
+
+    /* END DROPDOWN */
+
+    /* BLOCKQUOTE */
+    blockquote {
+      background-color: #ff689382;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 50%;
+    }
+
+    code {
+      color: white;
+      text-wrap: wrap;
+    }
+
+    /* END BLOCKQUOTE */
+
+    /* BUTTON */
+
+    button {
+      color: #f2f2f2;
+      background-color: #ffffff00;
+      border: none;
+    }
+
+    svg:hover {
+      fill: #ff6893;
+      transition: 0.2s;
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    svg:not(:hover) {
+      transition: 0.2s;
+    }
+
+    /* END NAV */
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <div class="navbar">
+    <a href="../">Home</a>
+    <div class="dropdown">
+      <button class="dropbtn">Gallery</button>
+      <div class="dropdown-content">
+        <a href="/gallery/wildlife">Wildlife</a>
+        <a href="/gallery/portrait">Portrait</a>
+        <a href="/gallery/event">Event</a>
+        <a href="/gallery/sport">Sport</a>
+
+      </div>
+    </div>
+    <a href="../contact">Contact</a>
+  </div>
+  <!-- END NAV -->
+
+  <header>
+    <h1>Wildlife</h1>
+    <p>I love birding.</p>
+  </header>
+
+  <main>
+    <div class="gallery" id="gallery"></div>
+  </main>
+
+  <div id="lightbox">
+    <button id="lb-prev">&#8249;</button>
+    <div id="lightbox-inner">
+      <button id="lb-close">&#215;</button>
+      <img id="lightbox-img" src="" alt="">
+      <div id="lb-counter"></div>
+    </div>
+    <button id="lb-next">&#8250;</button>
+  </div>
+
+  <script>
+    // =============================================
+    //  ADD YOUR PHOTOS HERE
+    //  Replace src values with your image paths or URLs
+    // =============================================
+    const photos = [
+      { src: "/images/img1.jpg", alt: "Great Egret" },
+      { src: "/images/img2.jpg", alt: "Red-Shouldered Hawk" },
+      { src: "/images/img3.jpg", alt: "Forest path" },
+      { src: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=800", alt: "Misty hills" },
+      { src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800", alt: "Sunny valley" },
+      { src: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800", alt: "Autumn trees" },
+      { src: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800", alt: "Waterfall" },
+      { src: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800", alt: "Snowy peaks" },
+      { src: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=800", alt: "Coastal cliffs" },
+      { src: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800", alt: "Forest light" },
+      { src: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800", alt: "Snow mountains" },
+
+    ];
+    // =============================================
+
+    const gallery = document.getElementById('gallery');
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCounter = document.getElementById('lb-counter');
+    let currentIndex = 0;
+    lbImg.style.transition = 'opacity 0.15s';
+
+    photos.forEach((photo, idx) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.innerHTML = `
+      <img src="${photo.src}" alt="${photo.alt}" loading="lazy">
+      <div class="overlay">
+        <div class="overlay-icon">
+          <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>`;
+      item.addEventListener('click', () => openLightbox(idx));
+      gallery.appendChild(item);
+    });
+
+    function openLightbox(idx) {
+      currentIndex = idx;
+      lbImg.src = photos[idx].src;
+      lbCounter.textContent = (idx + 1) + ' / ' + photos.length;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() { lightbox.classList.remove('active'); document.body.style.overflow = ''; }
+    function navigate(dir) {
+      currentIndex = (currentIndex + dir + photos.length) % photos.length;
+      lbImg.style.opacity = 0;
+      setTimeout(() => { lbImg.src = photos[currentIndex].src; lbCounter.textContent = (currentIndex + 1) + ' / ' + photos.length; lbImg.style.opacity = 1; }, 120);
+    }
+
+    document.getElementById('lb-close').addEventListener('click', closeLightbox);
+    document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); navigate(-1); });
+    document.getElementById('lb-next').addEventListener('click', e => { e.stopPropagation(); navigate(1); });
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigate(-1);
+      if (e.key === 'ArrowRight') navigate(1);
+    });
+  </script>
+</body>
+
+</html>
