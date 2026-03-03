@@ -4,12 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
 
   <title>Portfolio | Wildlife</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Sans+3:wght@300;400;600&display=swap"
+    rel="stylesheet">
   <link rel="icon" sizes="any" mask="" href="../logo.png">
   <style>
     *,
@@ -56,12 +59,29 @@
       color: var(--text);
       font-weight: 900;
       font-style: italic;
+      animation: fadeUp 0.7s 0.2s ease both;
+      opacity: 0;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     header p {
       margin-top: 0.5rem;
       font-size: 1rem;
       color: var(--muted);
+
+      animation: fadeUp 0.7s 0.3s ease both;
+      opacity: 0;
     }
 
     .gallery {
@@ -447,18 +467,16 @@
     //  Replace src values with your image paths or URLs
     // =============================================
     const photos = [
-      { src: "/images/img1.JPG", alt: "Great Egret" },
-      { src: "/images/img2.jpg", alt: "Red-Shouldered Hawk" },
-      { src: "/images/img3.jpg", alt: "DC Duckling" },
-      { src: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=800", alt: "Misty hills" },
-      { src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800", alt: "Sunny valley" },
-      { src: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800", alt: "Autumn trees" },
-      { src: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800", alt: "Waterfall" },
-      { src: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800", alt: "Snowy peaks" },
-      { src: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=800", alt: "Coastal cliffs" },
-      { src: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800", alt: "Forest light" },
-      { src: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800", alt: "Snow mountains" },
-
+      { src: "/images/wildlife1.jpg", alt: "Great Egret" },
+      { src: "/images/wildlife2.jpg", alt: "Red-Shouldered Hawk" },
+      { src: "/images/wildlife3.jpg", alt: "DC Duckling" },
+      { src: "/images/wildlife4.jpg", alt: "Misty hills" },
+      { src: "/images/wildlife5.jpg", alt: "Snowy Egret" },
+      { src: "/images/wildlife6.jpg", alt: "Juvenile Green Heron" },
+      { src: "/images/wildlife7.jpg", alt: "Juvenile Green Heron" },
+      { src: "/images/wildlife8.jpg", alt: "Juvenile Green Heron" },
+      { src: "/images/wildlife9.jpg", alt: "Juvenile Green Heron" },
+      { src: "/images/wildlife10.jpg", alt: "Juvenile Green Heron" },
     ];
     // =============================================
 
