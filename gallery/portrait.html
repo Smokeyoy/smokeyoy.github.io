@@ -59,12 +59,28 @@
       color: var(--text);
       font-weight: 900;
       font-style: italic;
+      animation: fadeUp 0.7s 0.2s ease both;
+      opacity: 0;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     header p {
       margin-top: 0.5rem;
       font-size: 1rem;
       color: var(--muted);
+      animation: fadeUp 0.7s 0.3s ease both;
+      opacity: 0;
     }
 
     .gallery {
