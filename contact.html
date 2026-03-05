@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Portfolio</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Sans+3:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #1d1d1d;
+      --surface: #2a2a2a;
+      --surface2: #323232;
+      --text: #ffffff;
+      --muted: #aaaaaa;
+      --pink: #ff6893;
+      --border: #404040;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    /* LIST */
+    .navbar {
+      font-family: 'Trebuchet MS', sans-serif;
+      position: sticky;
+      top: 0;
+      overflow: visible;
+      min-height: 50px;
+
+      background-color: #1d1d1dce;
+      z-index: 100;
+      -webkit-user-select: none;
+      /* Safari */
+      -ms-user-select: none;
+      /* IE 10 and IE 11 */
+      user-select: none;
+      /* Standard syntax */
+    }
+
+    .navbar a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .navbar a:hover {
+      color: #ff6893;
+      text-shadow: 0px 0px 10px #ff6893;
+      transition: 0.2s;
+    }
+
+    .navbar a:not(:hover) {
+      transition: 0.2s;
+    }
+
+    /*END LIST*/
+
+    /* DROPDOWN */
+    .dropdown {
+      float: left;
+      overflow: hidden;
+
+    }
+
+    /* Dropdown button */
+    .dropdown .dropbtn {
+      font-size: 17px;
+      border: none;
+      outline: none;
+      color: #f2f2f2;
+      padding: 14px 16px;
+      background-color: inherit;
+      font-family: 'Trebuchet MS', sans-serif;
+      margin: 0;
+      border-radius: 15px;
+    }
+
+    /* Dropdown content (hidden by default) */
+    .dropdown-content {
+      font-family: 'Trebuchet MS', sans-serif;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+      transform: translateY(-10px);
+      position: absolute;
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px #00000033;
+      z-index: 1000;
+    }
+
+    /* Dropdown links */
+    .dropdown-content a {
+      float: none;
+      font-size: 16px;
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+
+    /* Links contained in dropdown hover */
+    .dropdown-content a:hover {
+      color: #ff6893;
+      text-shadow: 0px 0px 10px #ff6893;
+      transition: 0.2s;
+    }
+
+    /* Show & animate the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+      opacity: 1;
+      transform: translateY(0px);
+      pointer-events: auto;
+
+    }
+
+    /* Dropdown button hover */
+    .dropdown:hover .dropbtn {
+      color: #ff6893;
+      text-shadow: 0px 0px 10px #ff6893;
+      transition: 0.2s;
+    }
+
+    /* Dropdown button not hover */
+    .dropdown:not(:hover) .dropbtn {
+      transition: 0.2s;
+    }
+
+    /* END DROPDOWN */
+
+    /* BLOCKQUOTE */
+    blockquote {
+      background-color: #ff689382;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 50%;
+    }
+
+    code {
+      color: white;
+      text-wrap: wrap;
+    }
+
+    /* END BLOCKQUOTE */
+
+    /* END NAV */
+
+    /* ── Page header ── */
+    .page-header {
+      padding: clamp(3rem, 7vw, 6rem) clamp(1.5rem, 6vw, 4rem) 0;
+      text-align: center;
+      animation: fadeUp 0.7s 0.1s ease both;
+      opacity: 0;
+    }
+
+    .page-header .eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--pink);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      color: var(--pink);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 420px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .header-divider {
+      width: 50px;
+      height: 2px;
+      background: var(--pink);
+      margin: 1.5rem auto 0;
+      border-radius: 2px;
+      animation: expandWidth 0.7s 0.4s ease both;
+      opacity: 0;
+    }
+
+    /* ── Main layout ── */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 6vw, 4rem);
+      align-items: start;
+    }
+
+    /* ── Info panel ── */
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      animation: fadeUp 0.7s 0.2s ease both;
+      opacity: 0;
+    }
+
+    .info-block h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .info-block p,
+    .info-block a {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .info-block a:hover {
+      color: var(--pink);
+    }
+
+    .info-icon {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .info-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--pink);
+      fill: none;
+      stroke-width: 1.8;
+      flex-shrink: 0;
+    }
+
+    .info-icon span {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--pink);
+      font-weight: 600;
+    }
+
+    /* Social links */
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.25s, color 0.25s;
+    }
+
+    .social-link:hover {
+      border-color: var(--pink);
+      color: var(--pink);
+    }
+
+    .social-link svg {
+      width: 13px;
+      height: 13px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+    }
+
+    /* Availability badge */
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 104, 147, 0.08);
+      border: 1px solid rgba(255, 104, 147, 0.25);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+
+    .availability .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--pink);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+      }
+    }
+
+    /* ── Contact form ── */
+    .contact-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      animation: fadeUp 0.7s 0.3s ease both;
+      opacity: 0;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field label {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.25s;
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23aaaaaa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      cursor: pointer;
+    }
+
+    .field select option {
+      background: var(--surface2);
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--pink);
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #555;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.9rem 2rem;
+      background: var(--pink);
+      color: #fff;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      border: 2px solid var(--pink);
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      width: 100%;
+      margin-top: 0.4rem;
+    }
+
+    .submit-btn:hover {
+      background: transparent;
+      color: var(--pink);
+    }
+
+    .submit-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      transition: transform 0.3s;
+    }
+
+    .submit-btn:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* Success message (hidden by default) */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      color: var(--pink);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    footer p {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes expandWidth {
+      from {
+        opacity: 0;
+        width: 0;
+      }
+
+      to {
+        opacity: 1;
+        width: 50px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .contact-wrap {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links a {
+        padding: 0 0.7rem;
+        font-size: 0.78rem;
+      }
+
+      .contact-form {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div class="navbar">
+    <a href="../">Home</a>
+    <div class="dropdown">
+      <button class="dropbtn">Gallery</button>
+      <div class="dropdown-content">
+        <a href="/gallery/wildlife">Wildlife</a>
+        <a href="/gallery/portrait">Portrait</a>
+        <a href="/gallery/event">Event</a>
+        <a href="/gallery/sport">Sport</a>
+
+      </div>
+    </div>
+    <a href="../contact">Contact</a>
+  </div>
+  <!-- END NAV -->
+
+  <!-- ── PAGE HEADER ── -->
+  <div class="page-header">
+    <span class="eyebrow">Get in touch</span>
+    <h1>Contact</h1>
+    <p>Available for bookings, commissions, and collaborations.</p>
+    <div class="header-divider"></div>
+  </div>
+
+  <!-- ── MAIN CONTENT ── -->
+  <div class="contact-wrap">
+
+    <!-- Info panel -->
+    <div class="contact-info">
+
+      <div class="availability">
+        <div class="dot"></div>
+        Available for bookings
+      </div>
+
+      <div class="info-block">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+          <span>Email</span>
+        </div>
+        <a href="mailto:abigailshanker@gmail.com">abigailshanker@gmail.com</a>
+      </div>
+
+      <div class="info-block">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.37 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
+          <span>Phone</span>
+        </div>
+        <p>+1 (000) 000 0000</p>
+      </div>
+
+      <div class="info-block">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+            <circle cx="12" cy="9" r="2.5" />
+          </svg>
+          <span>Location</span>
+        </div>
+        <p>Virginia, USA</p>
+      </div>
+
+      <div class="info-block">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" />
+          </svg>
+          <span>Social</span>
+        </div>
+        <div class="social-links">
+          <a href="https://www.instagram.com/avigail.photo/" class="social-link">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+            @avigail.photo
+          </a>
+          <!--<a href="#" class="social-link">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+            </svg>
+            Twitter
+          </a>-->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Contact form -->
+    <form class="contact-form" id="contactForm" action="https://formspree.io/f/xwvreedv" method="POST">
+      <div class="form-row">
+        <div class="field">
+          <label for="fname">First name</label>
+          <input type="text" id="fname" name="first_name" placeholder="Jane">
+        </div>
+        <div class="field">
+          <label for="lname">Last name</label>
+          <input type="text" id="lname" name="last_name" placeholder="Smith">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="jane@example.com">
+      </div>
+
+      <div class="field">
+        <label for="enquiry">Type of enquiry</label>
+        <select id="enquiry" name="enquiry_type">
+          <option value="" disabled selected>Select a category…</option>
+          <option>Wildlife Photography</option>
+          <option>Portrait Photography</option>
+          <option>Event Photography</option>
+          <option>Sport Photography</option>
+          <option>General Enquiry</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Tell me about your project…"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        Send message
+        <svg viewBox="0 0 24 24">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <div class="success-msg" id="successMsg">
+        ✦ Message received ✦<br> Thank you!
+      </div>
+    </form>
+
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>&copy; 2026 Abby Shanker — All rights reserved</p>
+    <p>Photography Portfolio</p>
+  </footer>
+
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async function (e) {
+      e.preventDefault(); // stops the page redirecting
+
+      const form = e.target;
+      const data = new FormData(form);
+
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        // Hide form fields and show success message
+        [...form.querySelectorAll('.field, .form-row, .submit-btn')].forEach(el => el.style.display = 'none');
+        document.getElementById('successMsg').style.display = 'block';
+      } else {
+        alert('Something went wrong — please try again or email me directly.');
+      }
+    });
+  </script>
+
+</body>
+
+</html>
